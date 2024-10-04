@@ -1,0 +1,43 @@
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+
+segments=(3,12,11,13,26,31,33,35)
+
+for segment in segments:
+        GPIO.setup(segment,GPIO.OUT)
+        GPIO.output(segment,0)
+
+digits=(16,18,22,24)
+
+for digit in digits:
+        GPIO.setup(digit,GPIO.OUT)
+        GPIO.output(digit,1)
+
+num =   {'':(1,1,1,1,1,1,1,1),
+        '0':(0,0,0,0,0,0,1,1),
+        '1':(1,0,0,1,1,1,1,1),
+        '2':(0,0,1,0,0,1,0,1),
+        '3':(0,0,0,0,1,1,0,1),
+        '4':(1,0,0,1,1,0,0,1),
+        '5':(0,1,0,0,1,0,0,1),
+        '6':(0,1,0,0,0,0,0,1),
+        '7':(0,0,0,1,1,1,1,1),
+        '8':(0,0,0,0,0,0,0,1),
+        '9':(0,0,0,0,1,0,0,1)}
+try:
+        n=0
+        while True:
+                for digit in range(4):
+                        for loop in range(0,7):
+                                GPIO.output(segments[loop],num[str(n)][loop])
+
+                        GPIO.output(digits,1)
+                        time.sleep(0.1)
+                        GPIO.output(digits,0)
+
+                n=n+1
+                if n==10:
+		 n=n % 10
+finally:
+        GPIO.cleanup()

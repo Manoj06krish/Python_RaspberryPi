@@ -1,0 +1,34 @@
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO_TRIGGER=12
+GPIO_ECHO=18
+GPIO_BUZZ=22
+GPIO.setup(GPIO_ECHO,GPIO.IN)
+GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
+GPIO.setup(GPIO_BUZZ,GPIO.OUT)
+def distance():
+        GPIO.output(GPIO_TRIGGER,True)
+        Starttime=time.time()
+        Stoptime=time.time()
+        while GPIO.input(GPIO_ECHO)==0:
+                Starttime=time.time()
+        while GPIO.input(GPIO_ECHO)==1:
+                Stoptime=time.time()
+        Timeelapsed=Stoptime-Starttime
+        dist=(Timeelapsed*34800)/2
+        return dist
+if __name__=='__main__':
+        try:
+                while True:
+                        dist=distance()
+                        print("Measured distance=%1.f cm"%dist)
+                        if dist<50:
+                                GPIO.output(GPIO_BUZZ,GPIO.HIGH)
+                        else:
+                                GPIO.output(GPIO_BUZZ,GPIO.LOW)
+                        time.sleep(1)
+        except KeyboardInterrupt:
+                print("Measurement stopped by user")
+                GPIO.cleanup()

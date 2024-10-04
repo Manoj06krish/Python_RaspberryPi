@@ -1,0 +1,45 @@
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(12,GPIO.IN)
+GPIO.setup(11,GPIO.OUT)
+GPIO.setup(13,GPIO.OUT)
+GPIO.setup(15,GPIO.OUT)
+GPIO.setup(16,GPIO.OUT)
+state1 = False
+state2 = False
+state3 = False
+state4 = True
+GPIO.output(11,state1)
+GPIO.output(13,state2)
+GPIO.output(15,state3)
+GPIO.output(16,state4)
+i=2
+while True:
+        button = GPIO.input(12)
+        if button == False:
+                if i%2 == 0:
+                        state3 = not state3
+                        GPIO.output(15,state3)
+                if i%4 == 0:
+                        state2 = not state2
+                        GPIO.output(13,state2)
+                if i%8 == 0:
+                        state1 = not state1
+                        GPIO.output(11,state1)
+                i = i + 1
+        else:
+                i = i - 1
+                time.sleep(1)
+                if i % 2 == 0:
+                        state3 = not state3
+                        GPIO.output(15,state3)
+                if i % 4 == 0:
+                        state2 = not state2
+                        GPIO.output(13,state2)
+                if i % 8 == 0:
+                        state1 = not state1
+                        GPIO.output(11,state1)
+        state4 = not state4
+        GPIO.output(16,state4)
+        time.sleep(2)

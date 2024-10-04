@@ -1,0 +1,37 @@
+import RPi.GPIO as GPIO
+from time import sleep
+import sys
+
+motor_channel=(29,31,33,35)
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(motor_channel,GPIO.OUT)
+
+motor_direction=input("select motor direction a= anticlockwise or c= clockwise")
+while True:
+        try:
+                if(motor_direction=='c'):
+                        print('Motor Running Clockwise\n')
+                        GPIO.output(motor_channel,(1,0,0,1))
+                        sleep(0.2)
+                        GPIO.output(motor_channel,(1,1,0,0))
+                        sleep(0.2)
+                        GPIO.output(motor_channel,(0,1,1,0))
+                        sleep(0.2)
+                        GPIO.output(motor_channel,(0,0,1,1))
+                        sleep(0.2)
+                elif(motor_direction=='a'):
+                        print('Motor Running Anti-Clockwise\n')
+                        GPIO.output(motor_channel,(1,0,0,1))
+                        sleep(0.2)
+                        GPIO.output(motor_channel,(0,0,1,1))
+                        sleep(0.2)
+                        GPIO.output(motor_channel,(0,1,1,0))
+                        sleep(0.2)
+                        GPIO.output(motor_channel,(1,1,0,0))
+                        sleep(0.2)
+
+        except KeyboardInterrupt:
+                motor_direction=input('Select Motor Direction a=Anti-Clockwise or >                if(motor_direction=='q'):
+                        print('Motor Stopped')
+                        sys.exit(0)

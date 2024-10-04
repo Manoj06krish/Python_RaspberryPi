@@ -1,0 +1,28 @@
+import RPi.GPIO as GPIO
+from time import sleep
+
+MotA=18
+MotB=16
+MotE=22
+
+def setup():
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(MotA,GPIO.OUT)
+        GPIO.setup(MotB,GPIO.OUT)
+        GPIO.setup(MotE,GPIO.OUT)
+
+def loop():
+        GPIO.output(MotE,GPIO.HIGH)
+        GPIO.output(MotA,GPIO.HIGH)
+        GPIO.output(MotB,GPIO.LOW)
+        sleep(10)
+        GPIO.output(MotA,GPIO.LOW)
+        GPIO.output(MotB,GPIO.HIGH)
+        sleep(10)
+        GPIO.output(MotE,GPIO.LOW)
+
+setup()
+while True:
+        loop()
+GPIO.cleanup()
